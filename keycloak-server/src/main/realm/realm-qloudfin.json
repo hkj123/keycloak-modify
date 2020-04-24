@@ -1,0 +1,51 @@
+{
+  "realm": "qloudfin",
+  "enabled": true,
+  "sslRequired": "external",
+  "registrationAllowed": false,
+  "internationalizationEnabled": true,
+  "supportedLocales": [
+    "zh-CN",
+    "es"
+  ],
+  "defaultLocale": "zh-CN",
+  "users": [
+    {
+      "username": "qloudfin",
+      "enabled": true,
+      "attributes": {
+        "locale": [
+          "zh-CN"
+        ]
+      },
+      "credentials": [
+        {
+          "type": "password",
+          "value": "123456"
+        }
+      ]
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "auth-client",
+      "surrogateAuthRequired": false,
+      "enabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "6s5hf32a-5af8-0v8e-8s62-8922654e8745",
+      "bearerOnly": false,
+      "consentRequired": false,
+      "standardFlowEnabled": true,
+      "implicitFlowEnabled": false,
+      "directAccessGrantsEnabled": true,
+      "serviceAccountsEnabled": false,
+      "publicClient": true,
+      "frontchannelLogout": false,
+      "protocol": "openid-connect",
+      "fullScopeAllowed": true,
+      "attributes": {}
+    }
+  ],
+  "components": {
+  }
+}

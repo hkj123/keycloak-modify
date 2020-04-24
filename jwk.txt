@@ -1,0 +1,9 @@
+jwk-keygen --use=sig --format --jwks --pem --pem-body --alg=PS256 --kid=client1-PS256
+jwk-keygen --use=sig --format --jwks --pem --pem-body --alg=PS256 --kid=client2-PS256
+
+curl -s -L https://github.com/openstandia/jwk-keygen/releases/download/v0.1/jwk-keygen-v0.1-linux-amd64.tar.gz | tar zx -C .bin
+
+
+mkdir -p .bin
+    curl -s -L https://github.com/openstandia/jwk-keygen/releases/download/v0.1/jwk-keygen-v0.1-linux-amd64.tar.gz | tar zx -C .bin
+    PATH=$PATH:.bin

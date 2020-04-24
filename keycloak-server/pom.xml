@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>keycloak</artifactId>
+        <groupId>com.openbank</groupId>
+        <version>7.0.0</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <artifactId>keycloak-server</artifactId>
+    <version>7.0.0</version>
+    <packaging>jar</packaging>
+    <name>keycloak-server</name>
+    <description>Qloud Fix Keycloak REST Services For OB Security</description>
+
+    <build>
+        <finalName>keycloak-server</finalName>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>unzip-keycloak</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>unpack</goal>
+                        </goals>
+                        <configuration>
+                            <artifactItems>
+                                <artifactItem>
+                                    <groupId>org.keycloak</groupId>
+                                    <artifactId>keycloak-server-dist</artifactId>
+                                    <type>zip</type>
+                                    <overWrite>true</overWrite>
+                                    <outputDirectory>${project.build.directory}</outputDirectory>
+                                </artifactItem>
+                            </artifactItems>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>3.1.0</version>
+                <configuration>
+                    <appendAssemblyId>false</appendAssemblyId>
+                    <descriptors>
+                        <descriptor>src/main/assembly/base.xml</descriptor>
+                    </descriptors>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-antrun-plugin</artifactId>
+                <version>1.8</version>
+                <executions>
+                    <execution>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>run</goal>
+                        </goals>
+                        <configuration>
+                            <target>
+                                <move file="${project.build.directory}/keycloak-${keycloak.version}" tofile="${project.build.directory}/keycloak-server"/>
+                                <move file="${project.build.directory}/keycloak-server/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-modify-services-${project.version}.jar"
+                                      tofile="${project.build.directory}/keycloak-server/modules/system/layers/keycloak/org/keycloak/keycloak-services/main/keycloak-services-${keycloak.version}.jar"/>
+                                <copy tofile="${project.build.directory}/keycloak-server/standalone/configuration/standalone.xml" overwrite="true"
+                                      file="src/main/standalone/standalone.xml"/>
+                                <copy tofile="${project.build.directory}/keycloak-server/standalone/configuration/standalone_server.xml" overwrite="true"
+                                      file="src/main/standalone/standalone_server.xml"/>
+                                <copy tofile="${project.build.directory}/keycloak-server/standalone/configuration/standalone_ha.xml" overwrite="true"
+                                      file="src/main/standalone/standalone_ha.xml"/>
+                                <copy tofile="${project.build.directory}/keycloak-server/standalone/configuration/standalone_server_https.xml" overwrite="true"
+                                      file="src/main/standalone/standalone_server_https.xml"/>
+                                <copy todir="${project.build.directory}/keycloak-server/themes">
+                                    <fileset dir="src/main/themes"/>
+                                </copy>
+                                <zip basedir="${project.build.directory}/keycloak-server/" destfile="${project.build.directory}/keycloak-server.zip"/>
+<!--                                <delete file="${project.build.directory}/qloudpdp-server" />-->
+                            </target>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.mariadb.jdbc</groupId>
+            <artifactId>mariadb-java-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.openbank</groupId>
+            <artifactId>keycloak-modify-services</artifactId>
+        </dependency>
+    </dependencies>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    </properties>
+
+</project>

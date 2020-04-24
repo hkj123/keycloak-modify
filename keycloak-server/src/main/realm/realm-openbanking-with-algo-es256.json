@@ -1,0 +1,166 @@
+{
+    "realm": "openbankinges256",
+    "enabled": true,
+    "sslRequired": "external",
+    "registrationAllowed": false,
+    "requiredCredentials": [ "password" ],
+    "internationalizationEnabled": true,
+    "supportedLocales": [
+        "zh-CN",
+        "es"
+    ],
+    "defaultLocale": "zh-CN",
+    "users": [
+        {
+            "username": "shirly",
+            "enabled": true,
+            "attributes": {
+                "locale": [
+                    "zh-CN"
+                ]
+            },
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "shirly"
+                }
+            ],
+            "clientRoles": {
+                "account": [
+                    "manage-account"
+                ]
+            }
+        }
+    ],
+    "clients": [
+    	{
+            "clientId": "client1-private_key_jwt-ES256-ES256",
+            "bearerOnly": false,
+            "standardFlowEnabled": true,
+            "implicitFlowEnabled": true,
+            "directAccessGrantsEnabled": false,
+            "serviceAccountsEnabled": false,
+            "publicClient": false,
+            "enabled": true,
+            "clientAuthenticatorType": "client-jwt",
+            "fullScopeAllowed": true,
+            "protocol": "openid-connect",
+            "redirectUris": [
+                 "https://192.168.56.8:8443/test/*"
+            ],
+            "attributes": {
+                
+                "request.object.signature.alg": "ES256",
+                "jwt.credential.kid": "client1-ES256",
+                "jwt.credential.public.key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEgiz2nc+Fsl5wjFER1veA1z3WpoqOILMtuTYKqut2TVi7qrCKDEZ3gPsmVlns2nsRtDgZ9GGmDqh/hwIF/Sde2w==",
+                "access.token.signed.response.alg": "RS256",
+                "exclude.session.state.from.auth.response": "false",
+                "id.token.signed.response.alg": "ES256",
+                "request.object.required": "request or request_uri",
+                "tls.client.certificate.bound.access.tokens": "true"
+            },
+            "protocolMappers": [
+                {
+                    "name": "aud",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-audience-mapper",
+                    "consentRequired": false,
+                    "config": {
+                        "included.client.audience": "resource-server",
+                        "id.token.claim": "false",
+                        "access.token.claim": "true"
+                    }
+                },
+                {
+					"name": "openbanking_intent_id",
+					"protocol": "openid-connect",
+					"protocolMapper": "oidc-script-based-protocol-mapper",
+					"consentRequired": true,
+					"config": {
+						"userinfo.token.claim": "true",
+						"id.token.claim": "true",
+						"access.token.claim": "true",
+						"claim.name": "openbanking_intend_id",
+						"jsonType.label": "String",
+						"script": "/**\n * Available variables: \n * user - the current user\n * realm - the current realm\n * token - the current token\n * userSession - the current userSession\n * keycloakSession - the current userSession\n */\n\n\n//insert your code here...\n//print( \"123\" );\nvar clientUUID = keycloakSession.getContext().getClient().getId() ;\nvar notes = userSession.getAuthenticatedClientSessionByClient( clientUUID ).getNotes();\n\nvar claims = notes.get(\"claims\");\nvar openbanking_intent_id = JSON.parse( claims )[\"id_token\"][\"openbanking_intent_id\"][\"value\"];\ntoken.setOtherClaims( 'openbanking_intent_id', openbanking_intent_id );"
+					}
+			    }
+            ]
+        },
+        {
+            "clientId": "client2-private_key_jwt-ES256-ES256",
+            "bearerOnly": false,
+            "standardFlowEnabled": true,
+            "implicitFlowEnabled": true,
+            "directAccessGrantsEnabled": false,
+            "serviceAccountsEnabled": false,
+            "publicClient": false,
+            "enabled": true,
+            "clientAuthenticatorType": "client-jwt",
+            "fullScopeAllowed": true,
+            "protocol": "openid-connect",
+            "redirectUris": [
+                "https://192.168.56.8:8443/test/*"
+            ],
+            "attributes": {
+                
+                "request.object.signature.alg": "ES256",
+                "jwt.credential.kid": "client2-ES256",
+                "jwt.credential.public.key": "MFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAEAnAud5slpTprIt74ZjG+I1aIVoREmwA+oDFcRts+RwnD20Bqbt9eepFiC8vqdIZ6esotMoOHwZLRdRH4ZqM7BA==",
+                "access.token.signed.response.alg": "RS256",
+                "exclude.session.state.from.auth.response": "false",
+                "id.token.signed.response.alg": "ES256",
+                "request.object.required": "request or request_uri",
+                "tls.client.certificate.bound.access.tokens": "true"
+            },
+            "protocolMappers": [
+                {
+                    "name": "aud",
+                    "protocol": "openid-connect",
+                    "protocolMapper": "oidc-audience-mapper",
+                    "consentRequired": false,
+                    "config": {
+                        "included.client.audience": "resource-server",
+                        "id.token.claim": "false",
+                        "access.token.claim": "true"
+                    }
+                },
+                {
+					"name": "openbanking_intent_id",
+					"protocol": "openid-connect",
+					"protocolMapper": "oidc-script-based-protocol-mapper",
+					"consentRequired": true,
+					"config": {
+						"userinfo.token.claim": "true",
+						"id.token.claim": "true",
+						"access.token.claim": "true",
+						"claim.name": "openbanking_intend_id",
+						"jsonType.label": "String",
+						"script": "/**\n * Available variables: \n * user - the current user\n * realm - the current realm\n * token - the current token\n * userSession - the current userSession\n * keycloakSession - the current userSession\n */\n\n\n//insert your code here...\n//print( \"123\" );\nvar clientUUID = keycloakSession.getContext().getClient().getId() ;\nvar notes = userSession.getAuthenticatedClientSessionByClient( clientUUID ).getNotes();\n\nvar claims = notes.get(\"claims\");\nvar openbanking_intent_id = JSON.parse( claims )[\"id_token\"][\"openbanking_intent_id\"][\"value\"];\ntoken.setOtherClaims( 'openbanking_intent_id', openbanking_intent_id );"
+					}
+			    }
+            ]
+        },
+        {
+            "clientId": "resource-proxy",
+            "secret": "4a9af65a-5af8-4b3e-8f64-8929272e2433",
+            "bearerOnly": false,
+            "standardFlowEnabled": true,
+            "implicitFlowEnabled": false,
+            "directAccessGrantsEnabled": false,
+            "serviceAccountsEnabled": true,
+            "publicClient": false,
+            "enabled": true,
+            "clientAuthenticatorType": "client-secret",
+            "fullScopeAllowed": true,
+            "protocol": "openid-connect",
+            "redirectUris": [
+            	"/auth/realms/openbanking/account"
+            ],
+            "attributes": {
+            }
+        }
+    ],
+    "components": {
+    }
+}
